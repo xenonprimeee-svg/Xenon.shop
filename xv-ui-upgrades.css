@@ -1,0 +1,680 @@
+/* XYLO VIP UI Upgrades (non-breaking)
+   #6 Micro-interactions
+   #8 Buy modal hierarchy (visual only)
+   #5 Admin health indicators (styles)
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* Motion system (premium + consistent)
+   Visual-only. Uses transform/opacity for perf.
+*/
+:root{
+  --xv-ease: cubic-bezier(.2,.8,.2,1);
+  --xv-fast: 120ms;
+  --xv-med: 170ms;
+  --xv-slow: 220ms;
+}
+
+/* #6 Micro-interactions */
+:where(button, a, input, select, textarea) { -webkit-tap-highlight-color: transparent; }
+
+:where(button, a, .glass, .vip-product-card, .variant-item, .xv-topPill, .drawer-action) {
+  transition: transform var(--xv-fast) var(--xv-ease), box-shadow var(--xv-med) var(--xv-ease), filter var(--xv-med) var(--xv-ease), opacity var(--xv-fast) var(--xv-ease);
+  will-change: transform;
+}
+
+@media (hover:hover) {
+  :where(.glass, .vip-product-card, .variant-item):hover { transform: translateY(-2px); }
+  :where(.xv-topPill):hover { transform: translateY(-1px); filter: brightness(1.08); }
+}
+
+:where(button, a):active { transform: scale(.985); }
+
+/* Press feedback for pills/buttons (mobile) */
+.xv-topPill:active{ transform: translateY(0) scale(.985); }
+
+/* Drawer open/close: smoother + "glass settle" */
+.drawer{ will-change: transform; }
+.drawer{ transform: translateX(-100%) scale(.99); transition: transform var(--xv-slow) var(--xv-ease); }
+.drawer.open{ transform: translateX(0) scale(1); }
+.drawer-overlay{ opacity: 0; transition: opacity var(--xv-med) var(--xv-ease); }
+.drawer-overlay.open{ opacity: 1; }
+
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid rgba(96,165,250,.55);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+/* ------------------------------------------------------------
+   Global Drawer (Sidebar) polish â match header glass/glow
+   Visual-only, no layout/behavior changes.
+------------------------------------------------------------ */
+
+/* Drawer container: richer purple/green tint + glow ring */
+.drawer.glass{
+  background:
+    radial-gradient(110% 80% at 18% 10%, rgba(var(--vip-accent-rgb), .38) 0%, rgba(var(--vip-accent-rgb), 0) 60%),
+    radial-gradient(90% 70% at 90% 35%, rgba(var(--vip-accent-rgb), .18) 0%, rgba(var(--vip-accent-rgb), 0) 62%),
+    linear-gradient(135deg, rgba(var(--vip-accent-rgb), .20), rgba(10,14,26, .88));  backdrop-filter: none;
+  -webkit-  backdrop-filter: none;
+  border-right: 1px solid rgba(var(--vip-accent-rgb), .28);
+  box-shadow:
+    0 0 0 1px rgba(var(--vip-accent-rgb), .18),
+    0 0 46px rgba(var(--vip-accent-rgb), .22),
+    inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+/* Drawer top divider line a touch brighter */
+.drawer .border-b{border-color: rgba(255,255,255,.10) !important;}
+
+/* Action buttons base */
+.drawer-action{
+  position: relative;
+  overflow: hidden;
+  width:100%;
+  min-height:52px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 14px;
+  gap:10px;
+  text-align:center;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 0 18px rgba(var(--vip-accent-rgb), .14), inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.drawer-action:hover{background: rgba(255,255,255,.09);}
+.drawer-action .sub{font-size:12px; opacity:.85;}
+.drawer-action .main{font-weight:700; display:flex; align-items:center; gap:10px; justify-content:center;}
+
+.drawer-balance{
+  width:100%;
+  min-height:52px;
+  border-radius:16px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 0 18px rgba(var(--vip-accent-rgb), .14), inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.drawer-topPill{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow: 0 0 18px rgba(var(--vip-accent-rgb), .14), inset 0 1px 0 rgba(255,255,255,.10);
+}
+.drawer-balance .addbtn{width:40px;height:40px;border-radius:14px;}
+
+/* PurpleâCyan gradient buttons (Support / Channels) */
+.drawer-action.drawer-action--pc{
+  background: linear-gradient(135deg, rgba(168,85,247,.35), rgba(34,211,238,.28));
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow:
+    0 0 0 1px rgba(168,85,247,.14),
+    0 0 28px rgba(34,211,238,.16),
+    0 0 34px rgba(168,85,247,.18),
+    inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+/* Logout: richer purple gradient */
+.drawer-action.drawer-action--logout{
+  background: linear-gradient(135deg, rgba(168,85,247,.42), rgba(99,102,241,.30));
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow:
+    0 0 0 1px rgba(168,85,247,.16),
+    0 0 38px rgba(168,85,247,.22),
+    inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+/* Fancy shine sweep (subtle) */
+.drawer-action.drawer-action--pc::before,
+.drawer-action.drawer-action--logout::before{
+  content:"";
+  position:absolute;
+  inset:-40% -60%;
+  background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.18) 50%, transparent 65%);
+  transform: translateX(-30%) rotate(8deg);
+  opacity:.55;
+  pointer-events:none;
+}
+
+@media (hover:hover){
+  .drawer-action.drawer-action--pc:hover{filter: brightness(1.06);}
+  .drawer-action.drawer-action--logout:hover{filter: brightness(1.06);}
+}
+
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))){
+  .drawer.glass{background: rgba(12,16,28,.94);}
+}
+
+/* #8 Buy modal hierarchy (visual only) */
+#variantModal #variantContent .xv-modal-section:not(:first-child) {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: .75rem;
+  margin-top: .75rem;
+}
+
+#variantModal #scrollHint {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 999px;
+  padding: .35rem .65rem;
+  margin-top: .75rem;
+  z-index: 2;
+}
+
+#variantModal #variantContent .xv-modal-section-title {
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+/* === POLISH PACK (non-breaking, visual only) === */
+
+/* Product card: crisp media border + subtle inner shadow */
+.vip-product-card .vip-product-media{ position: relative; }
+.vip-product-card .vip-product-media::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -24px 36px rgba(0,0,0,0.28);
+}
+
+/* Pills: consistent height + cleaner alignment (no behavior change) */
+.vip-chip{
+  min-height: 24px;
+  line-height: 1;
+}
+
+/* Device marquee: premium edge fade + smoother motion */
+.vip-chip-device .vip-marquee{
+  position: relative;
+  /* Fade the edges regardless of background using a mask */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Override marquee speed/track for a smoother look */
+@keyframes vipMarquee{
+  0%{ transform: translateX(0); }
+  100%{ transform: translateX(-50%); }
+}
+.vip-chip-device .vip-marquee-inner{
+  animation-duration: 8.5s;
+  animation-timing-function: linear;
+  will-change: transform;
+}
+
+/* Buy modal: section headers + upgraded scroll hint (order unchanged) */
+#variantModal #variantContent .xv-modal-section-title{
+  font-size: .9rem;
+  text-transform: none;
+  color: rgba(229,231,235,0.92);
+}
+
+#variantModal #scrollHint{
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+#variantModal #scrollHint::after{
+  content: "â¾";
+  display:inline-block;
+  opacity: .85;
+  transform: translateY(-1px);
+  /* Run only once when modal is opened (JS toggles .xv-just-opened) */
+  animation: none;
+}
+
+/* one-time nudge on open (no infinite bouncing) */
+#variantModal.xv-just-opened #scrollHint::after{
+  animation: xvHintBounce 1.05s var(--xv-ease) 1;
+}
+
+/* Buy modal entrance (visual only) */
+@keyframes xvModalIn{
+  from { opacity: 0; transform: translateY(10px) scale(.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+#variantModal.xv-just-opened{ animation: xvModalIn var(--xv-med) var(--xv-ease) 1; }
+
+@keyframes xvHintBounce{
+  0%, 100%{ transform: translateY(-1px); opacity: .75; }
+  50%{ transform: translateY(2px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  #variantModal #scrollHint::after{ animation: none; }
+}
+
+/* #5 Admin health indicators */
+.xv-health-wrap { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.35rem; }
+.xv-health-pill {
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  padding: .15rem .5rem;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1.2;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  color: rgba(229,231,235,.90);
+}
+
+.xv-health-pill--warn {
+  border-color: rgba(245,158,11,.35);
+  background: rgba(245,158,11,.12);
+  color: rgba(253,230,138,.95);
+}
+
+.xv-health-pill--bad {
+  border-color: rgba(239,68,68,.35);
+  background: rgba(239,68,68,.10);
+  color: rgba(254,202,202,.95);
+}
+
+.xv-health-pill i { opacity: .9; }
+
+/* ------------------------------------------------------------
+   Status pill micro-animations (visual only)
+------------------------------------------------------------ */
+@keyframes xvSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes xvStatusPulse {
+  0%   { transform: scale(1); filter: brightness(1); }
+  40%  { transform: scale(1.03); filter: brightness(1.12); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* Updating: subtle rotation while visible */
+[data-status-pill][data-status-key="updating"] i{ animation: xvSpin 2.6s linear infinite; }
+
+/* One-time pulse when status is changed (JS adds/removes .xv-status-pulse) */
+[data-status-pill].xv-status-pulse{ animation: xvStatusPulse 420ms var(--xv-ease) 1; }
+
+/* === BUY MODAL GLASSMORPHISM (visual only, no behavior change) === */
+/* Dark + purple-tinted glass backdrop */
+#overlay.overlay,
+#freeViewOverlay{
+  background:
+    radial-gradient(1200px 600px at 20% 10%, rgba(168, 85, 247, .22), rgba(0,0,0,0) 55%),
+    radial-gradient(900px 520px at 80% 20%, rgba(99, 102, 241, .16), rgba(0,0,0,0) 60%),
+    rgba(0,0,0,.55);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+}
+
+/* Outer modal glass shell */
+/* Outer modal glass shell (purple glassmorphism) */
+#variantModal.xv-glass-modal.glass,
+#freeViewPanel.glass{
+  background: rgba(88, 28, 135, .14); /* more transparent purple glass */
+  border: 1px solid rgba(216, 180, 254, .22);
+  box-shadow:
+    0 22px 70px rgba(0,0,0,.62),
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 0 40px rgba(168, 85, 247, .18);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  position: relative;
+}
+
+/* Soft internal gradient sheen */
+#variantModal.xv-glass-modal.glass::before,
+#freeViewPanel.glass::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(135deg, rgba(216, 180, 254, .12), rgba(0,0,0,0) 45%),
+    radial-gradient(700px 420px at 20% 0%, rgba(168, 85, 247, .18), rgba(0,0,0,0) 55%),
+    radial-gradient(560px 380px at 85% 20%, rgba(99, 102, 241, .14), rgba(0,0,0,0) 60%);
+  mix-blend-mode: screen;
+  opacity: .9;
+}
+
+/* Header / top bar */
+#variantModal .xv-modal-topbar,
+#freeViewPanel .xv-modal-topbar{
+  background: rgba(216, 180, 254, .08) !important;
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* Make the topbar icon match purple theme without changing markup */
+#variantModal .xv-modal-topbar .bi-box-seam{ color: rgba(196, 181, 253, .95) !important; }
+
+/* Scroll container */
+#variantModal .xv-modal-scroll,
+#freeViewPanel .free-view-scroll{
+  background: transparent !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Inner content wrapper for consistent spacing + subtle depth */
+#variantModal #variantContent .xv-modal-shell{
+  padding: .15rem 0;
+}
+
+/* Soft top/bottom fades to suggest scroll depth (doesn't change scroll) */
+#variantModal .xv-modal-scroll,
+#freeViewPanel .free-view-scroll{
+  position: relative;
+}
+#variantModal .xv-modal-scroll::before,
+#variantModal .xv-modal-scroll::after,
+#freeViewPanel .free-view-scroll::before,
+#freeViewPanel .free-view-scroll::after{
+  content:"";
+  position: sticky;
+  left: 0;
+  right: 0;
+  height: 18px;
+  display:block;
+  pointer-events:none;
+  z-index: 3;
+}
+#variantModal .xv-modal-scroll::before,
+#freeViewPanel .free-view-scroll::before{
+  top: 0;
+  background: linear-gradient(to bottom, rgba(2,6,23,.70), rgba(2,6,23,0));
+}
+#variantModal .xv-modal-scroll::after,
+#freeViewPanel .free-view-scroll::after{
+  bottom: 0;
+  background: linear-gradient(to top, rgba(2,6,23,.70), rgba(2,6,23,0));
+}
+
+/* Scroll hint becomes more âglass pillâ */
+#variantModal #scrollHint,
+#freeViewPanel #freeScrollHint{
+  background: rgba(216, 180, 254, .10);
+  border-color: rgba(216, 180, 254, .22);
+  color: rgba(229,231,235,0.92);
+  /* keep it compact (prevents big empty right gap) */
+  display: inline-flex !important;
+  width: fit-content !important;
+  padding: .35rem .75rem !important;
+  border-radius: 999px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Make all inner glass elements inside the modal purple-tinted */
+#variantModal .glass,
+#freeViewPanel .glass{
+  background: rgba(88, 28, 135, .10);
+  border-color: rgba(216, 180, 254, .18) !important;
+}
+
+/* Tablet full-details behavior: keep details readable without breaking scroll */
+@media (min-width: 768px){
+  #variantModal .xv-details-box{
+    max-height: 38vh;
+    overflow: auto;
+  }
+}
+
+/* Fallback when backdrop-filter is unsupported */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  #overlay.overlay{ background: rgba(0,0,0,.70); }
+  #variantModal.xv-glass-modal.glass{ background: rgba(17,24,39,.92); }
+  #variantModal .xv-modal-topbar{ background: rgba(17,24,39,.96) !important; }
+}
+
+/* --- Buy Modal scroll isolation (iOS/iPad Safari) ---
+   Prevents background scroll bleed / scroll chaining that can make the modal "jump" on tablet. */
+body.xv-modal-open{
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* --- Buy Modal structural guardrails (prevents "blur only" + off-screen modal) ---
+   These rules intentionally use high specificity + !important so theme files
+   (vip-purple / vip-reseller-green / tailwind addon) cannot accidentally
+   change stacking, positioning, or visibility. Visual theming is handled above.
+*/
+#overlay.overlay{
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9998 !important;
+  display: none;
+}
+
+#variantModal{
+  position: fixed !important;
+  z-index: 9999 !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(92vw, 520px) !important;
+  max-height: min(88vh, 720px) !important;
+  overflow: hidden !important;
+}
+
+/* --- Confirm Purchase (Quantity) + Success modals ---
+   These modals share the same overlay as the Buy Modal.
+   Guardrails ensure they always render ABOVE the blur overlay and
+   stay within the viewport on mobile/tablet (prevents "blur only" + teleports).
+*/
+#quantityModal,
+#successModal{
+  position: fixed !important;
+  z-index: 10000 !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-height: min(88vh, 760px) !important;
+  overflow: hidden !important;
+}
+
+#quantityModal{ width: min(92vw, 360px) !important; }
+#successModal{ width: min(92vw, 520px) !important; }
+
+/* Mobile: FULL-SCREEN modals (Project Rules v1) */
+@media (max-width: 768px){
+  #quantityModal,
+  #successModal{
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    transform: none !important;
+    width: 100vw !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    /* iOS safe-area */
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Make quantity/success modals match the glass style */
+#quantityModal.glass,
+#successModal.glass{
+  background: rgba(88, 28, 135, .14) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: 0 22px 70px rgba(0,0,0,.62), 0 0 0 1px rgba(255,255,255,.06) inset;
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+}
+
+/* Remove hard "panel" backgrounds inside confirm/success so the glass shows through */
+#quantityModal .bg-gray-800,
+#quantityModal .bg-gray-900,
+#successModal .bg-gray-800,
+#successModal .bg-gray-900{
+  background: transparent !important;
+}
+
+/* Role-aware accents (purple for admin/user, green for reseller via vip-reseller-green.css) */
+#quantityModal .text-blue-400,
+#successModal .text-blue-400{ color: rgb(var(--vip-accent-rgb)) !important; }
+
+#quantityModal .bg-blue-500,
+#successModal .bg-blue-500,
+#quantityModal .hover\:bg-blue-600:hover,
+#successModal .hover\:bg-blue-600:hover{
+  background: linear-gradient(135deg, rgba(var(--vip-accent-rgb), .95), rgba(var(--vip-accent-rgb), .65)) !important;
+}
+
+#quantityModal .border-blue-500\/30,
+#successModal .border-blue-500\/30{
+  border-color: rgba(var(--vip-accent-rgb), .28) !important;
+}
+
+#quantityModal .bg-blue-500\/10,
+#successModal .bg-blue-500\/10{
+  background: rgba(var(--vip-accent-rgb), .12) !important;
+}
+
+/* Replace transform-based slide animation (prevents "teleport" when transforms are clamped) */
+@keyframes xvFadeUpCentered{
+  from{ opacity: 0; transform: translate(-50%, -50%) translateY(12px); }
+  to{ opacity: 1; transform: translate(-50%, -50%) translateY(0); }
+}
+@keyframes xvFadeUpSheet{
+  from{ opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to{ opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+#quantityModal.animate-slide-up,
+#successModal.animate-slide-up{ animation: xvFadeUpCentered .18s ease-out; }
+
+@media (max-width: 768px){
+  #quantityModal.animate-slide-up,
+  #successModal.animate-slide-up{ animation: xvFadeUpSheet .18s ease-out; }
+}
+
+/* Ensure the scroll area is the ONLY scroll container inside the modal */
+#variantModal .xv-modal-scroll{
+  max-height: calc(min(88vh, 720px) - 54px) !important; /* minus topbar */
+  overflow-y: auto !important;
+}
+
+/* Mobile: FULL-SCREEN buy modal (Project Rules v1) */
+@media (max-width: 768px){
+  #variantModal{
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    transform: none !important;
+    width: 100vw !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  #variantModal .xv-modal-scroll{
+    max-height: calc(100vh - 54px) !important;
+  }
+}
+
+/* Ensure the overlay itself never scrolls */
+#overlay{
+  position: fixed;
+  inset: 0;
+  overscroll-behavior: none;
+}
+
+/* Contain scrolling inside the modal scroll area */
+#variantModal .xv-modal-scroll{
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* Modal header pills beside title (category + device) */
+#variantModal .xv-modal-topbar h5{ flex-wrap: wrap; }
+#variantModal .xv-modal-header-pills{
+  display:inline-flex;
+  gap:6px;
+  margin-left:8px;
+  align-items:center;
+  flex-wrap: wrap;
+}
+#variantModal .xv-modal-chip{
+  padding:2px 7px;
+  font-size:9px;
+  font-weight:800;
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.14);
+}
+#variantModal .xv-modal-chip .bi{ font-size:10px; }
+#variantModal #modalDevicePill{ max-width: 260px; }
+@media (max-width: 520px){
+  #variantModal #modalDevicePill{ max-width: 180px; }
+}
+
+/* === Sidebar accordion anti-flicker (Admin tool pages) ===
+   Root cause: large backdrop-filter surface repaints when nav groups expand/collapse.
+   Fix: keep drawer glass look without blur buffer (prevents white/gray flashing bands).
+*/
+.drawer.glass{
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.vip-chip-icon-img{width:16px;height:16px;border-radius:6px;object-fit:cover;flex-shrink:0;display:inline-block;}
+
+
+/* Render stability layer: keep zoom/reflow from blanking content */
+html.xv-render-stable body{ overflow-x:hidden; }
+:where(.vip-product-media, .media-frame, .thumb, .home-featured-carousel, .carousel-slide, .program-carousel, .program-hero-media){
+  position: relative;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  background: rgba(255,255,255,.035);
+}
+:where(.vip-product-media img, .media-frame img, .thumb img, .home-featured-carousel img, .carousel-slide img, .program-carousel img, .program-hero-media img){
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:1;
+}
+/* Never leave major content hidden if an observer/animation misses after zoom */
+html.xv-render-stable :where([data-reveal], .xv-reveal, .reveal-on-scroll, .card-reveal, .xv-card-reveal){
+  opacity:1 !important;
+  transform:none !important;
+  filter:none !important;
+}
+/* Images only: soft paint, no scale/blur tricks while browser is re-rasterizing */
+img.xv-lazy-managed{
+  transition: opacity 180ms var(--xv-ease, ease);
+  background: rgba(255,255,255,.03);
+}
+img.xv-lazy-managed.xv-is-loading{ opacity:.999; }
+img.xv-lazy-managed.xv-is-ready{ opacity:1; }
+/* During zoom / viewport scale changes, disable fancy transforms that cause chunky redraws */
+html.xv-zooming :where(.vip-product-card, .glass, .variant-item, .xv-topPill, .drawer-action, .vip-product-img, img.xv-lazy-managed){
+  transition:none !important;
+  animation:none !important;
+  filter:none !important;
+}
+html.xv-zooming .vip-product-img{ transform:none !important; }
+/* Keep content visible even before images finish */
+html.xv-render-stable :where(.vip-product-card, .glass, .stat-card-modern, .panel-modern, .home-panel, .program-card, .notification-card, .history-card){
+  opacity:1;
+}

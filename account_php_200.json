@@ -1,0 +1,90 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xylo Hacks | Account Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/vip-purple.css?v=1773418345">
+  <style>
+    body{background:#070a12;color:#e5e7eb;min-height:100vh}
+    .glass-card{position:relative;overflow:hidden;border:1px solid rgba(168,85,247,.16);background:rgba(10,14,28,.58);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 54px rgba(0,0,0,.62),0 0 0 1px rgba(168,85,247,.18) inset,0 0 26px rgba(168,85,247,.12)}
+    .glass-card::before{content:"";position:absolute;inset:-1px;background:radial-gradient(340px 180px at 24% 18%, rgba(168,85,247,.30), transparent 60%),radial-gradient(260px 180px at 80% 26%, rgba(99,102,241,.22), transparent 62%);opacity:.85;pointer-events:none}
+    .glass-card>*{position:relative;z-index:1}
+    .cta{background:linear-gradient(135deg, rgba(168,85,247,.95), rgba(99,102,241,.90));color:#fff;border:1px solid rgba(255,255,255,.18);box-shadow:0 16px 44px rgba(168,85,247,.30),0 0 0 1px rgba(168,85,247,.22) inset,0 0 26px rgba(99,102,241,.22)}
+  </style>
+</head>
+<body class="bg-darkbg text-gray-100 min-h-screen">
+  <!-- Bootstrap Icons (guarantee sidebar/tool icons render on every page that includes nav.php) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/assets/css/xv-ui-upgrades.css?v=1773418345">
+<script>window.XV_UI_VERSION=1773418345;</script>
+<script src="/assets/js/ui-defaults.js?v=1773418345"></script>
+<script defer src="/assets/js/xylo-guest-auth-toast.js?v=1777595710"></script>
+<script>window.XV_NOTIF_POLL_MS=15000;</script>
+<script defer src="/assets/js/notifications-poll.js?v=1773418345"></script>
+<style>
+/* Sticky glass header (top nav): purple glass + glow (no heavy shadow) */
+.glass-header{
+  background: linear-gradient(135deg,
+    rgba(var(--vip-accent-rgb), .16),
+    rgba(10,14,26, .66)
+  );
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: var(--glow-mag), inset 0 1px 0 rgba(255,255,255,.08);
+  border: 1px solid rgba(var(--vip-accent-rgb), .22);
+  border-radius: 0;
+  margin: 0;
+}
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))){
+  .glass-header{background: rgba(12,16,28,.92);}
+}
+
+/* Brand wordmark (Option B) */
+.xv-brand{display:inline-flex;align-items:center;gap:.55rem;min-width:0;}
+.xv-brandMark{width:28px;height:28px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+  flex: 0 0 auto;
+}
+.xv-brandMark img{width:18px;height:18px;object-fit:contain;display:block;}
+.xv-brandFallback{font-weight:800;font-size:13px;letter-spacing:.5px;color: rgba(255,255,255,.9);
+  text-shadow: 0 0 12px rgba(168,85,247,.35);
+}
+.xv-brandText{display:inline-flex;align-items:baseline;gap:.35rem;min-width:0;}
+.xv-brandText .xv-xylo{font-weight:800;letter-spacing:.2px;}
+.xv-brandText .xv-store{font-weight:600;opacity:.72;color: rgba(255,255,255,.92);}
+
+/* Notifications badge (Facebook-like) */
+.xv-tab{position:relative;}
+.xv-notifBadge{position:absolute; top:7px; right:18px; min-width:18px; height:18px; padding:0 6px;
+  border-radius:999px; display:none; align-items:center; justify-content:center;
+  font-size:11px; font-weight:800; line-height:18px; letter-spacing:.2px;
+  background: rgba(244,63,94,.92); color:white;
+  box-shadow: 0 8px 18px rgba(244,63,94,.18);
+}
+@media (max-width: 1024px){
+  .xv-notifBadge{ right: 22px; top: 6px; }
+}
+
+/* Offcanvas mobile menu */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(2px);z-index:60;display:none;opacity:0;transition:opacity var(--xv-med,170ms) var(--xv-ease,ease);}
+.drawer{position:fixed;top:0;left:0;height:100vh;height:100dvh;width:18rem;max-width:85vw;transform:translateX(-100%) scale(.99);transition:transform var(--xv-slow,220ms) var(--xv-ease,ease);z-index:61;display:flex;flex-direction:column;overflow:hidden;
+  /* Match top header: purple glass + glow (no heavy shadow) */
+  background: linear-gradient(135deg,
+    rgba(var(--vip-accent-rgb), .18),
+    rgba(10,14,26, .92)
+  );
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-right: 1px solid rgba(var(--vip-accent-rgb), .22);
+  box-shadow: var(--glow-mag), inset 0 1px 0 rgba(255,255,255,.06);
+padding-bottom:env(safe-area-inset-bottom);}
+.drawer.open{transform:translateX(0) scale(1);} 
+.drawer-overlay.open{display:block;opacity:1;}
+.drawer nav{overscroll-behavior:contain;-webkit-overflo

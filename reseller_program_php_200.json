@@ -1,0 +1,91 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reseller Program</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/vip-purple.css?v=1773418345" />
+  <style>
+    .xv-purple-panel{
+      background: linear-gradient(135deg, rgba(168,85,247,.18), rgba(10,14,26,.78)) !important;
+      border: 1px solid rgba(168,85,247,.22) !important;
+      box-shadow: var(--glow-mag) !important;
+    }
+    .xv-chip{
+      background: rgba(168,85,247,.12) !important;
+      border: 1px solid rgba(168,85,247,.18) !important;
+      box-shadow: 0 0 0 1px rgba(168,85,247,.08) !important;
+    }
+    .xv-showcase-viewport{
+      height: clamp(240px, 46vw, 420px);
+      background: radial-gradient(1200px 320px at 50% 0%, rgba(168,85,247,.16), rgba(0,0,0,0)),
+                  linear-gradient(135deg, rgba(168,85,247,.10), rgba(10,14,26,.92));
+      box-shadow: inset 0 0 0 1px rgba(168,85,247,.14), 0 18px 55px rgba(0,0,0,.55);
+      overflow: hidden;
+    }
+    .xv-showcase-arrow{
+      position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:999px;
+      display:flex; align-items:center; justify-content:center;
+      background: radial-gradient(circle at 30% 22%, rgba(212,120,255,0.40), transparent 60%), linear-gradient(135deg, rgba(12,7,22,0.78), rgba(132,58,220,0.72)) !important;
+      border:1px solid rgba(212,120,255,.30) !important; color: rgba(255,255,255,0.96) !important;
+      text-shadow: 0 0 10px rgba(212,120,255,0.55) !important;
+      box-shadow: 0 0 0 1px rgba(212,120,255,0.10) inset, 0 12px 26px rgba(0,0,0,.34), 0 0 34px rgba(212,120,255,.20) !important;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); cursor:pointer; z-index:2; opacity:.92; user-select:none;
+    }
+    .xv-showcase-prev{ left: 14px; }
+    .xv-showcase-next{ right: 14px; }
+    .xv-showcase-arrow:active{ transform: translateY(-50%) scale(.96); filter: brightness(1.06); }
+    .xv-carousel-track{ will-change: transform; display:flex; align-items:center; gap:26px; padding:0 26px; }
+    .xv-slide{ height:100%; display:flex; align-items:center; justify-content:center; flex:0 0 auto; opacity:.65; transform:scale(.92); transition:transform .22s ease, opacity .22s ease; }
+    .xv-slide.is-active{ opacity:1; transform:scale(1.02); }
+    .xv-slide.is-prev, .xv-slide.is-next{ opacity:.85; transform:scale(.96); }
+    .xv-slide-inner{ width:var(--xvPhoneW, 220px); height:var(--xvPhoneH, 390px); border-radius:22px; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.10); box-shadow:0 16px 40px rgba(0,0,0,.55); overflow:hidden; }
+    .xv-slide img{ display:block; width:100%; height:100%; object-fit:contain; }
+    @media (max-width: 640px){ .xv-showcase-arrow{ width:54px; height:54px; font-size:26px; } .xv-showcase-prev{ left:10px; } .xv-showcase-next{ right:10px; } }
+      </style>
+</head>
+<body class="xv-modal-scroll text-gray-100 min-h-screen">
+<!-- Bootstrap Icons (guarantee sidebar/tool icons render on every page that includes nav.php) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/assets/css/xv-ui-upgrades.css?v=1773418345">
+<script>window.XV_UI_VERSION=1773418345;</script>
+<script src="/assets/js/ui-defaults.js?v=1773418345"></script>
+<script defer src="/assets/js/xylo-guest-auth-toast.js?v=1777595710"></script>
+<script>window.XV_NOTIF_POLL_MS=15000;</script>
+<script defer src="/assets/js/notifications-poll.js?v=1773418345"></script>
+<style>
+/* Sticky glass header (top nav): purple glass + glow (no heavy shadow) */
+.glass-header{
+  background: linear-gradient(135deg,
+    rgba(var(--vip-accent-rgb), .16),
+    rgba(10,14,26, .66)
+  );
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: var(--glow-mag), inset 0 1px 0 rgba(255,255,255,.08);
+  border: 1px solid rgba(var(--vip-accent-rgb), .22);
+  border-radius: 0;
+  margin: 0;
+}
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))){
+  .glass-header{background: rgba(12,16,28,.92);}
+}
+
+/* Brand wordmark (Option B) */
+.xv-brand{display:inline-flex;align-items:center;gap:.55rem;min-width:0;}
+.xv-brandMark{width:28px;height:28px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+  flex: 0 0 auto;
+}
+.xv-brandMark img{width:18px;height:18px;object-fit:contain;display:block;}
+.xv-brandFallback{font-weight:800;font-size:13px;letter-spacing:.5px;color: rgba(255,255,255,.9);
+  text-shadow: 0 0 12px rgba(168,85,247,.35);
+}
+.xv-brandText{display:inline-flex;align-items:baseline;gap:.35rem;min-width:0;}
+.xv-brandText .xv-xylo{font-weight:800;letter-spacing:.2px;}
+.xv

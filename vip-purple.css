@@ -1,0 +1,300 @@
+/* XYLO VIP â GAMER NEON THEME (global override)
+   Purpose: make the whole site look like a different cyber/gamer product.
+   Behavior/logic is untouched; this is visual-only.
+*/
+
+/* Display wordmark font (used only for the top header title) */
+@import url('assets/img/css2');
+
+:root{
+  --vip-bg:#05060c;
+  --vip-text:#eef2ff;
+  --vip-muted:rgba(238,242,255,.70);
+  --vip-border:rgba(255,255,255,.12);
+  --vip-panel:rgba(255,255,255,.055);
+  --vip-panel2:rgba(255,255,255,.075);
+  --vip-cyan:#a855f7;
+  --vip-mag:#a855f7;
+  /* Unified accent tokens (used by modal polish fixes) */
+  --vip-accent: var(--vip-cyan);
+  --vip-accent-rgb: 168, 85, 247;
+  --vip-green:#22c55e;
+  --vip-red:#ef4444;
+  --vip-amber:#fbbf24;
+  --vip-radius:18px;
+  --vip-radius2:22px;
+  --vip-shadow:0 22px 70px rgba(0,0,0,.70);
+  --glow-cyan:0 0 0 1px rgba(168,85,247,.22), 0 0 18px rgba(168,85,247,.26), 0 0 44px rgba(168,85,247,.12);
+  --glow-mag:0 0 0 1px rgba(168,85,247,.20), 0 0 18px rgba(168,85,247,.24), 0 0 44px rgba(168,85,247,.12);
+  --glow-green:0 0 0 1px rgba(34,197,94,.18), 0 0 18px rgba(34,197,94,.20), 0 0 44px rgba(34,197,94,.10);
+  --glow-red:0 0 0 1px rgba(239,68,68,.22), 0 0 18px rgba(239,68,68,.22), 0 0 44px rgba(239,68,68,.12);
+  --vip-font: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+}
+
+html,body{background:var(--vip-bg)}
+body{
+  color:var(--vip-text);
+  font-family:var(--vip-font);
+  min-height:100vh;
+  background:
+    radial-gradient(1200px 700px at 14% 8%, rgba(168,85,247,.16), transparent 55%),
+    radial-gradient(1000px 650px at 92% 12%, rgba(168,85,247,.16), transparent 55%),
+    radial-gradient(900px 500px at 50% 112%, rgba(251,191,36,.08), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 30%),
+    var(--vip-bg);
+}
+body:before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:28px 28px;
+  opacity:.12;
+  mix-blend-mode:overlay;
+}
+
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:none}
+*{-webkit-tap-highlight-color:transparent}
+
+/* Panels / glass */
+.glass,.vip-glass,.glass-header,.drawer,.modal-content,.buy-modal-content,.card,.product-card,.status-card,.panel,.table,.table-responsive,.bg-white,.container .bg-white{
+  background:var(--vip-panel) !important;
+  border:1px solid var(--vip-border) !important;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-radius:var(--vip-radius2);
+}
+
+/* Sidebar / drawer should be square */
+.drawer{border-radius:0 !important;}
+
+/* Drawer scroll reliability (mobile/tablet):
+   - 100vh can clip content under browser UI; use 100dvh when supported
+   - allow flex children to shrink so overflow-y works
+   - add safe-area padding so bottom items are reachable
+*/
+.drawer{height:100dvh !important;}
+.drawer .drawer-scroll{min-height:0 !important; overflow-y:scroll !important; padding-bottom:calc(16px + env(safe-area-inset-bottom, 0px)) !important;}
+
+/* Drawer scrollbar: thinner + reserve gutter (note: some mobile browsers still auto-hide overlay scrollbars) */
+.drawer .drawer-scroll{
+  scrollbar-width: thin !important;          /* Firefox */
+  scrollbar-gutter: stable both-edges;       /* Reserve space so it doesn't overlay content */
+}
+.drawer .drawer-scroll::-webkit-scrollbar{ width:6px; }
+.drawer .drawer-scroll::-webkit-scrollbar-track{ background: transparent; }
+.drawer .drawer-scroll::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.25);
+  border-radius: 999px;
+}
+.drawer .drawer-scroll::-webkit-scrollbar-thumb:hover{
+  background: rgba(255,255,255,.35);
+}
+.shadow,.shadow-sm,.shadow-md,.shadow-lg{box-shadow:var(--vip-shadow) !important}
+
+/* Header */
+.glass-header{
+  /* Purple-tinted glass container for burger + title + cart */
+  background:linear-gradient(135deg,
+    rgba(var(--vip-accent-rgb), .16),
+    rgba(10,14,26, .66)
+  ) !important;
+  border:1px solid rgba(var(--vip-accent-rgb), .22) !important;
+  box-shadow:var(--glow-mag) !important;
+  backdrop-filter:blur(18px) saturate(140%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(140%) !important;
+  border-radius:0 !important;
+  margin:0 !important;
+}
+
+/* Topbar pills (burger/title/cart) â glow instead of heavy shadow */
+.xv-topPill{
+  background:rgba(255,255,255,.08) !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  border-radius:9999px !important;
+  box-shadow:var(--glow-mag) !important;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+/* Wordmark typography (title only) */
+.xv-brandText{font-family:"Fraunces", var(--vip-font) !important;}
+.xv-brandText .xv-xylo{font-weight:800 !important; letter-spacing:.35px !important;}
+.xv-brandText .xv-store{font-weight:700 !important; letter-spacing:.25px !important; opacity:.78 !important;}
+
+/* Drawer */
+.drawer{
+  /* Match header glass: purple-tinted transparent glass + glow (no heavy shadow) */
+  background:linear-gradient(135deg,
+    rgba(var(--vip-accent-rgb), .18),
+    rgba(10,14,26, .92)
+  ) !important;
+  border-right:1px solid rgba(var(--vip-accent-rgb), .22) !important;
+  box-shadow:var(--glow-mag), inset 0 1px 0 rgba(255,255,255,.06) !important;
+  backdrop-filter:blur(18px) saturate(140%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(140%) !important;
+}
+.drawer a{border-radius:14px !important;transition:transform .14s ease, background .14s ease, box-shadow .14s ease, color .14s ease !important}
+.drawer a:hover{background:rgba(168,85,247,.10) !important;color:rgba(168,85,247,.95) !important;box-shadow:var(--glow-cyan) !important;transform:translateY(-1px)}
+.drawer a:active{transform:translateY(0) scale(.985);filter:brightness(1.08)}
+
+/* Buttons */
+button,.btn,a.btn,[type="button"],[type="submit"]{border-radius:14px !important;transition:transform .14s ease, filter .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease !important}
+.btn,button{background:rgba(255,255,255,.06) !important;border:1px solid rgba(255,255,255,.12) !important;color:var(--vip-text) !important}
+.btn:hover,button:hover{filter:brightness(1.12);box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.btn:active,button:active{transform:translateY(1px) scale(.985);filter:brightness(1.06)}
+
+/* Primary */
+.btn-primary,.bg-blue-500,.bg-blue-600,.bg-indigo-600{
+  background:linear-gradient(135deg, rgba(168,85,247,.95), rgba(168,85,247,.65)) !important;
+  border-color:rgba(168,85,247,.35) !important;
+  box-shadow:var(--glow-cyan) !important;
+}
+
+/* Green / cart */
+.bg-green-500,.bg-emerald-500{background:linear-gradient(135deg, rgba(34,197,94,.26), rgba(34,197,94,.10)) !important;border-color:rgba(34,197,94,.35) !important;box-shadow:var(--glow-green) !important}
+
+/* Red */
+.bg-red-500{background:linear-gradient(135deg, rgba(239,68,68,.26), rgba(239,68,68,.10)) !important;border-color:rgba(239,68,68,.35) !important;box-shadow:var(--glow-red) !important}
+
+/* Inputs */
+input,select,textarea{background:rgba(255,255,255,.05) !important;border:1px solid rgba(255,255,255,.14) !important;color:var(--vip-text) !important;border-radius:14px !important;transition:box-shadow .14s ease,border-color .14s ease,background .14s ease !important}
+input::placeholder,textarea::placeholder{color:rgba(238,242,255,.45) !important}
+input:focus,select:focus,textarea:focus{outline:none !important;border-color:rgba(168,85,247,.45) !important;box-shadow:var(--glow-cyan) !important;background:rgba(255,255,255,.06) !important}
+
+/* Cards */
+.card,.product-card,.status-card,.hero-card{transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease !important}
+.card:hover,.product-card:hover,.status-card:hover{transform:translateY(-3px);border-color:rgba(168,85,247,.22) !important;box-shadow:var(--glow-mag), 0 22px 70px rgba(0,0,0,.70) !important}
+.card:active,.product-card:active{transform:translateY(-1px) scale(.99)}
+
+/* Modals */
+.modal-content,.buy-modal-content{background:rgba(6,10,22,.92) !important;border:1px solid rgba(168,85,247,.18) !important;box-shadow:var(--glow-cyan), 0 30px 90px rgba(0,0,0,.80) !important}
+.modal-header{border-bottom:1px solid rgba(255,255,255,.10) !important}
+
+/* Scrollbars */
+*{scrollbar-width:thin;scrollbar-color:rgba(168,85,247,.55) rgba(0,0,0,0)}
+*::-webkit-scrollbar{height:10px;width:10px}
+*::-webkit-scrollbar-thumb{background:linear-gradient(180deg, rgba(168,85,247,.75), rgba(168,85,247,.55));border-radius:999px;border:2px solid rgba(0,0,0,.25)}
+*::-webkit-scrollbar-track{background:rgba(0,0,0,0)}
+
+/* Text */
+h1,h2,h3{letter-spacing:.2px}
+h1{text-shadow:0 0 24px rgba(168,85,247,.18)}
+
+
+/* === Permanent drawer flicker fix (no behavior change) ===
+   Prevent white overlay flashes when expanding accordion sections.
+   Key: remove blur from the large dynamic drawer panel WITHOUT touching its slide transform.
+*/
+.drawer.glass{
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  /* keep glass look */
+  background: linear-gradient(135deg,
+    rgba(var(--vip-accent-rgb), .18),
+    rgba(10,14,26, .96)
+  ) !important;
+}
+.drawer{
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: paint;
+}
+/* NOTE: do not set/override transform on .drawer here (open/close depends on it) */
+
+/* XYLO VIP: Buy modal close + cancel controls (additive) */
+.xv-close-red{
+  background:linear-gradient(135deg, rgba(255,0,51,.60), rgba(255,0,51,.20));
+  color:#fff;
+  border:1px solid rgba(255,255,255,.18);
+  width:36px;
+  height:36px;
+  border-radius:9999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:filter .15s ease, transform .15s ease;
+}
+.xv-close-red:hover{filter:brightness(1.05);transform:scale(1.04);}
+
+.xv-modal-cancel-wrap{margin-top:14px;}
+.xv-modal-cancel-btn{
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(135deg, rgba(255,0,51,.42), rgba(255,0,51,.14));
+  color:#fff;
+  font-weight:700;
+  letter-spacing:.2px;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  transition:filter .15s ease, transform .15s ease;
+}
+.xv-modal-cancel-btn:hover{filter:brightness(1.05);transform:translateY(-1px);}
+
+
+
+/* === XV: Glassmorphism Red (Close X + Cancel) ===
+   Premium glass style with red gradient + soft glow.
+   Kept additive and scoped to XV classes only.
+*/
+.xv-close-red{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg, rgba(255,0,51,.65), rgba(255,0,51,.22)) !important;
+  color:#ffffff !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.16) inset,
+    0 10px 18px rgba(0,0,0,.28),
+    0 0 18px rgba(255,0,51,.55);
+}
+.xv-close-red::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:radial-gradient(circle at 30% 25%, rgba(255,255,255,.38), rgba(255,255,255,0) 55%);
+  opacity:.95;
+  pointer-events:none;
+}
+.xv-close-red:active{transform:scale(0.98);}
+
+/* Cancel button includes the .glass class in markup; override its gray background. */
+.xv-modal-cancel-btn{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg, rgba(255,0,51,.45), rgba(255,0,51,.16)) !important;
+  border:1px solid rgba(255,255,255,.20) !important;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.14) inset,
+    0 14px 26px rgba(0,0,0,.30),
+    0 0 28px rgba(255,0,51,.35);
+}
+.xv-modal-cancel-btn::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  background:linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 55%);
+  opacity:.85;
+  pointer-events:none;
+  mix-blend-mode:overlay;
+}
+.glass.xv-modal-cancel-btn{
+  background:linear-gradient(135deg, rgba(255,0,51,.45), rgba(255,0,51,.16)) !important;
+  color:#ffffff !important;
+  border:1px solid rgba(255,255,255,.20) !important;
+}
+.xv-modal-cancel-btn:active{transform:translateY(0);}
+
+/* Notifications: flash highlight for newly received */
+.xv-newflash{ box-shadow: 0 0 0 2px rgba(168,85,247,.55), 0 0 18px rgba(168,85,247,.28) !important; }

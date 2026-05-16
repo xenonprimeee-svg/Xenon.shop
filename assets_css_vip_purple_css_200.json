@@ -1,0 +1,125 @@
+/* XYLO VIP â GAMER NEON THEME (global override)
+   Purpose: make the whole site look like a different cyber/gamer product.
+   Behavior/logic is untouched; this is visual-only.
+*/
+
+/* Display wordmark font (used only for the top header title) */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap');
+
+:root{
+  --vip-bg:#05060c;
+  --vip-text:#eef2ff;
+  --vip-muted:rgba(238,242,255,.70);
+  --vip-border:rgba(255,255,255,.12);
+  --vip-panel:rgba(255,255,255,.055);
+  --vip-panel2:rgba(255,255,255,.075);
+  --vip-cyan:#a855f7;
+  --vip-mag:#a855f7;
+  /* Unified accent tokens (used by modal polish fixes) */
+  --vip-accent: var(--vip-cyan);
+  --vip-accent-rgb: 168, 85, 247;
+  --vip-green:#22c55e;
+  --vip-red:#ef4444;
+  --vip-amber:#fbbf24;
+  --vip-radius:18px;
+  --vip-radius2:22px;
+  --vip-shadow:0 22px 70px rgba(0,0,0,.70);
+  --glow-cyan:0 0 0 1px rgba(168,85,247,.22), 0 0 18px rgba(168,85,247,.26), 0 0 44px rgba(168,85,247,.12);
+  --glow-mag:0 0 0 1px rgba(168,85,247,.20), 0 0 18px rgba(168,85,247,.24), 0 0 44px rgba(168,85,247,.12);
+  --glow-green:0 0 0 1px rgba(34,197,94,.18), 0 0 18px rgba(34,197,94,.20), 0 0 44px rgba(34,197,94,.10);
+  --glow-red:0 0 0 1px rgba(239,68,68,.22), 0 0 18px rgba(239,68,68,.22), 0 0 44px rgba(239,68,68,.12);
+  --vip-font: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+}
+
+html,body{background:var(--vip-bg)}
+body{
+  color:var(--vip-text);
+  font-family:var(--vip-font);
+  min-height:100vh;
+  background:
+    radial-gradient(1200px 700px at 14% 8%, rgba(168,85,247,.16), transparent 55%),
+    radial-gradient(1000px 650px at 92% 12%, rgba(168,85,247,.16), transparent 55%),
+    radial-gradient(900px 500px at 50% 112%, rgba(251,191,36,.08), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 30%),
+    var(--vip-bg);
+}
+body:before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:28px 28px;
+  opacity:.12;
+  mix-blend-mode:overlay;
+}
+
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:none}
+*{-webkit-tap-highlight-color:transparent}
+
+/* Panels / glass */
+.glass,.vip-glass,.glass-header,.drawer,.modal-content,.buy-modal-content,.card,.product-card,.status-card,.panel,.table,.table-responsive,.bg-white,.container .bg-white{
+  background:var(--vip-panel) !important;
+  border:1px solid var(--vip-border) !important;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-radius:var(--vip-radius2);
+}
+
+/* Sidebar / drawer should be square */
+.drawer{border-radius:0 !important;}
+
+/* Drawer scroll reliability (mobile/tablet):
+   - 100vh can clip content under browser UI; use 100dvh when supported
+   - allow flex children to shrink so overflow-y works
+   - add safe-area padding so bottom items are reachable
+*/
+.drawer{height:100dvh !important;}
+.drawer .drawer-scroll{min-height:0 !important; overflow-y:scroll !important; padding-bottom:calc(16px + env(safe-area-inset-bottom, 0px)) !important;}
+
+/* Drawer scrollbar: thinner + reserve gutter (note: some mobile browsers still auto-hide overlay scrollbars) */
+.drawer .drawer-scroll{
+  scrollbar-width: thin !important;          /* Firefox */
+  scrollbar-gutter: stable both-edges;       /* Reserve space so it doesn't overlay content */
+}
+.drawer .drawer-scroll::-webkit-scrollbar{ width:6px; }
+.drawer .drawer-scroll::-webkit-scrollbar-track{ background: transparent; }
+.drawer .drawer-scroll::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.25);
+  border-radius: 999px;
+}
+.drawer .drawer-scroll::-webkit-scrollbar-thumb:hover{
+  background: rgba(255,255,255,.35);
+}
+.shadow,.shadow-sm,.shadow-md,.shadow-lg{box-shadow:var(--vip-shadow) !important}
+
+/* Header */
+.glass-header{
+  /* Purple-tinted glass container for burger + title + cart */
+  background:linear-gradient(135deg,
+    rgba(var(--vip-accent-rgb), .16),
+    rgba(10,14,26, .66)
+  ) !important;
+  border:1px solid rgba(var(--vip-accent-rgb), .22) !important;
+  box-shadow:var(--glow-mag) !important;
+  backdrop-filter:blur(18px) saturate(140%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(140%) !important;
+  border-radius:0 !important;
+  margin:0 !important;
+}
+
+/* Topbar pills (burger/title/cart) â glow instead of heavy shadow */
+.xv-topPill{
+  background:rgba(255,255,255,.08) !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  border-radius:9999px !important;
+  box-shadow:var(--glow-mag) !important;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+/* Wordmark typography (title only) */
+.xv-brandText{font-family:"Fraunces", var(--vip-font) !important;}
+.xv-brandText .xv-xylo{font-weight:800 !important; letter-spacing:.35px !important;}
+.xv-brandText .xv-store{font-weight:700 !important; letter-spacing:.25px !import

@@ -1,0 +1,89 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Xylo Hacks | Status</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/vip-purple.css?v=1773418345">
+  <style>
+    .thumb{width:30px;height:30px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);flex:0 0 30px}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .rowItem{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10)}
+    .rowItem:hover{background:rgba(255,255,255,.06)}
+    section.cat[data-open="0"] .cat-body{display:none;}
+    section.cat[data-open="1"] .cat-body{display:block;}
+    .chev{transition:transform .15s ease;}
+    section.cat[data-open="1"] .chev{transform:rotate(180deg);}
+  
+    /* Status pill (per-status colors + icons) */
+    .status-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;line-height:1;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);white-space:nowrap}
+    .status-pill i{font-size:12px;opacity:.95}
+    .status-recommended{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35);color:rgba(253,230,138,.95)}
+    .status-up{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.35);color:rgba(187,247,208,.95)}
+    .status-maintenance{background:rgba(249,115,22,.18);border-color:rgba(249,115,22,.35);color:rgba(254,215,170,.95)}
+    .status-updating{background:rgba(59,130,246,.18);border-color:rgba(59,130,246,.35);color:rgba(191,219,254,.95)}
+    .status-none{background:rgba(148,163,184,.12);border-color:rgba(148,163,184,.25);color:rgba(226,232,240,.85)}
+
+    /* Changelog modal (glassmorphism) */
+    body.xv-modal-open{overflow:hidden}
+    .xv-modal{position:fixed;inset:0;display:none;z-index:9999}
+    .xv-modal[data-open="1"]{display:block}
+    .xv-modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(10px)}
+    .xv-modal-panel{position:relative;width:calc(100% - 32px);max-width:640px;margin:84px auto 24px;border-radius:18px;
+      background:rgba(16,14,26,.62);border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 18px 60px rgba(0,0,0,.55)}
+    @media (max-width: 640px){.xv-modal-panel{margin:64px auto 16px;width:calc(100% - 24px)}}
+    .xv-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.10)}
+    .xv-modal-title{font-weight:900}
+    .xv-modal-close{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:8px 10px}
+    .xv-modal-close:hover{background:rgba(255,255,255,.10)}
+    .xv-modal-body{padding:14px 16px;max-height:70vh;overflow:auto}
+    
+  </style>
+</head>
+<body class="min-h-screen text-white bg-[#070a12]">
+<!-- Bootstrap Icons (guarantee sidebar/tool icons render on every page that includes nav.php) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/assets/css/xv-ui-upgrades.css?v=1773418345">
+<script>window.XV_UI_VERSION=1773418345;</script>
+<script src="/assets/js/ui-defaults.js?v=1773418345"></script>
+<script defer src="/assets/js/xylo-guest-auth-toast.js?v=1777595710"></script>
+<script>window.XV_NOTIF_POLL_MS=15000;</script>
+<script defer src="/assets/js/notifications-poll.js?v=1773418345"></script>
+<style>
+/* Sticky glass header (top nav): purple glass + glow (no heavy shadow) */
+.glass-header{
+  background: linear-gradient(135deg,
+    rgba(var(--vip-accent-rgb), .16),
+    rgba(10,14,26, .66)
+  );
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: var(--glow-mag), inset 0 1px 0 rgba(255,255,255,.08);
+  border: 1px solid rgba(var(--vip-accent-rgb), .22);
+  border-radius: 0;
+  margin: 0;
+}
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))){
+  .glass-header{background: rgba(12,16,28,.92);}
+}
+
+/* Brand wordmark (Option B) */
+.xv-brand{display:inline-flex;align-items:center;gap:.55rem;min-width:0;}
+.xv-brandMark{width:28px;height:28px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+  flex: 0 0 auto;
+}
+.xv-brandMark img{width:18px;height:18px;object-fit:contain;display:block;}
+.xv-brandFallback{font-weight:800;font-size:13px;letter-spacing:.5px;color: rgba(255,255,255,.9);
+  text-shadow: 0 0 12px rgba(168,85,247,.35);
+}
+.xv-brandText{display:inline-flex;align-items:baseline;gap:.35rem;min-width:0;}
+.xv-brandText .xv-xylo{font-weight:800;letter-spacing:.2px;}
+.xv-brandText .xv-store{font-we
